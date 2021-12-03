@@ -1,6 +1,6 @@
 # rivista
 
-A minimal daily journal app for goals and gratitide.
+A minimal daily journal app for goals and gratitude.
 
 # Getting Started with Create React App
 
