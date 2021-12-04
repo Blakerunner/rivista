@@ -9,6 +9,7 @@ const Entry = ({ entryTemplate = entryTemplates[0] }) => {
     {
       control,
       name: 'entry',
+      defaultValue: entryTemplate,
     }
   );
 
@@ -18,30 +19,21 @@ const Entry = ({ entryTemplate = entryTemplates[0] }) => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>{entryTemplate.entryTitle}</div>
-        <div>{entryTemplate.entryBlurb}</div>
-        {fields.map((item, index) => (
-          <li key={item.id}>
-            <input {...register(`test.${index}.value`)} />
-            <button type='button' onClick={() => remove(index)}>
-              Delete
-            </button>
-          </li>
-        ))}
-        <input type='submit' value='Submit' />
+      <form onSubmit={handleSubmit((data) => console.log(data))}>
+        <ul>
+          {fields.map((item, index) => (
+            <li key={item.id}>
+              <input type='textarea' {...register(`test.${index}.firstName`)} />
+              <button type='button' onClick={() => remove(index)}>
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
+        <input type='submit' />
       </form>
     </div>
   );
 };
 
 export default Entry;
-
-// return (
-//   <EntrySection
-//     key={key}
-//     sectionTitle={section.sectionTitle}
-//     sectionCount={section.sectionCount}
-//     sectionValues={section.sectionValues}
-//     values={values}></EntrySection>
-// );
