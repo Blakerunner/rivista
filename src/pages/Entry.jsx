@@ -1,35 +1,73 @@
 import { useState, useEffect } from 'react';
 import EntrySection from '../components/EntrySection';
 import { entryTemplates } from '../data/entryTemplates';
-import { useForm, useFieldArray } from 'react-hook-form';
 
 const Entry = ({ entryTemplate = entryTemplates[0] }) => {
-  const { register, control, handleSubmit } = useForm();
-  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
-    {
-      control,
-      name: 'entry',
-      defaultValue: entryTemplate,
-    }
-  );
+  const [formValues, setFormValues] = useState([{}]);
 
-  const onSubmit = (data) => {
-    console.log('🚀 ~ file: Entry.js ~ line 21 ~ handleSubmit ~ data', data);
+  useEffect(() => {
+    setFormValues(templateBuild(entryTemplate));
+  }, [])
+
+  const templateBuild = (template) => {
+    const fields = [];
+    template.sections.forEach(section => {
+      const sectionTitle = section.sectionTitle;
+      for (let i = 0; i < section.sectionCount; i++) {
+        fields.push({ sectionTitle, value: '' });
+      }
+    });
+    return fields;
+  };
+
+  console.log("formValues", formValues)
+
+  const handleChange = (i, e) => {
+    let newFormValues = [...formValues];
+    newFormValues[i][e.target.name] = e.target.value;
+    setFormValues(newFormValues);
+  };
+
+  const addFormFields = (title) => {
+    setFormValues([...formValues, { title, value: '' }]);
+  };
+
+  const removeFormFields = (index) => {
+    let newFormValues = [...formValues];
+    newFormValues.splice(index, 1);
+    setFormValues(newFormValues);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert(JSON.stringify(formValues));
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit((data) => console.log(data))}>
+      <form Submit={handleSubmit}>
         <ul>
-          {fields.map((item, index) => (
-            <li key={item.id}>
-              <input type='textarea' {...register(`test.${index}.firstName`)} />
-              <button type='button' onClick={() => remove(index)}>
+          {formValues.map((item, index) => (
+            <li key={index}>
+              <input
+                type='textarea'
+                name='field'
+                value={item.name || ''}
+                onChange={(e) => handleChange(index, e)}
+              />
+              <button type='button' onClick={() => removeFormFields(index)}>
                 Delete
               </button>
             </li>
           ))}
+          <button
+            className='button add'
+            type='button'
+            onClick={() => addFormFields()}>
+            Add
+          </button>
         </ul>
+
         <input type='submit' />
       </form>
     </div>

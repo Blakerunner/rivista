@@ -1,6 +1,7 @@
 import Firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
+import 'firebase/compat/analytics';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyANgj9MQsmQcwwvrC5cs_Ii0UkILGBeOQc',
@@ -17,9 +18,4 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 const analytics = firebase.analytics();
 
-module.exports = {
-  firebase,
-  db,
-  auth,
-  analytics,
-};
+export { firebase, db, auth, analytics };
