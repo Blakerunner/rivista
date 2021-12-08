@@ -52,16 +52,17 @@ const Entry = ({ entryTemplate = entryTemplates[0] }) => {
   };
 
   return (
-    <div>
+    <div className="my-4">
       <form onSubmit={handleSubmit}>
+        <h2 className="font-semibold text-lg text-gray-600">{entryTemplate.entryTitle}</h2>
         <ul className=''>
           {formValues.map((field, index) => (
             <li key={index} className='my-4'>
-              <label className='block text-md font-semibold text-gray-600'>
+              <label className='block text-md font-semibold text-gray-600 mb-2'>
                 {field.sectionTitle}
               </label>
-              <input
-                className='border w-4/6 h-12 align-middle border-gray-300 transition'
+              <textarea
+                className='w-4/6 h-20 shadow-inner rounded-lg border-0 border-b-2 border-gray-200 align-middle transition'
                 type='textarea'
                 name='field'
                 value={field.value || ''}
